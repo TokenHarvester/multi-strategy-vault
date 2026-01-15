@@ -60,7 +60,7 @@ This project fulfills all core requirements and stretch goals:
 ### 1. Clone and Install
 
 ```bash
-git clone 
+git clone https://github.com/TokenHarvester/multi-strategy-vault.git
 cd multi-strategy-vault
 npm install
 ```
@@ -75,8 +75,6 @@ HYPEREVM_TESTNET_RPC=https://api.hyperliquid-testnet.xyz/evm
 SEPOLIA_RPC_URL=https://rpc.sepolia.org
 ETHERSCAN_API_KEY=your_etherscan_api_key
 ```
-
-⚠️ **Never commit `.env` to version control!**
 
 ### 3. Compile Contracts
 
@@ -283,13 +281,13 @@ npx hardhat verify --network <network> <contract-address> <constructor-args>
 
 Gas usage for key operations:
 
-| Operation | Gas Cost | Optimizations |
-|-----------|----------|---------------|
-| Deposit | ~120k | SafeERC20, efficient storage |
-| Withdraw (instant) | ~100k | Minimal state changes |
-| Withdraw (queued) | ~80k | Custom errors |
-| Rebalance | ~250k+ | Batched operations |
-| Complete withdrawal | ~70k | Optimized storage |
+| Operation           | Gas Cost | Optimizations                |
+|---------------------|----------|------------------------------|
+| Deposit             | ~120k    | SafeERC20, efficient storage |
+| Withdraw (instant)  | ~100k    | Minimal state changes        |
+| Withdraw (queued)   | ~80k     | Custom errors                |
+| Rebalance           | ~250k+   | Batched operations           |
+| Complete withdrawal | ~70k     | Optimized storage            |
 
 ## ⚠️ Known Limitations
 
@@ -351,21 +349,6 @@ MIT License - see LICENSE file for details
 
 ## 👤 Author
 
-[Your Name]
-- GitHub: [@yourusername]
-- Email: your.email@example.com
-
-## 🙏 Acknowledgments
-
-- Token Metrics for the assignment
-- OpenZeppelin for secure contract libraries
-- Hardhat team for development tools
-- Ethereum community for ERC-4626 standard
-
----
-
-**Assignment Submission**: https://forms.gle/B3yt2N3z1fM5aNvZ6
-
-**Video Demo**: [Your Google Drive Link]
-
-**Deployed Contract Explorer**: [Your Block Explorer Link]
+[Elochukwu Orji]
+- GitHub: [@TokenHarvester]
+- Email: tokenharvester@gmail.com
