@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "commonjs",
     "lib": ["ES2020"],
     "outDir": "./dist",
     "rootDir": "./",
@@ -11,8 +10,9 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["test/**/*.ts"],
-  "exclude": ["node_modules", "dist", "hardhat.config.js"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

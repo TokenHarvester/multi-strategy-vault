@@ -1,14 +1,14 @@
-import { expect } from "chai";
-import { ethers } from "hardhat";
-import { time } from "@nomicfoundation/hardhat-network-helpers";
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+const { time } = require("@nomicfoundation/hardhat-network-helpers");
 
 describe("MultiStrategyVault", function () {
-    let vault: any, usdc: any, strategyA: any, strategyB: any, lockedStrategy: any;
-    let owner: any, manager: any, user1: any, user2: any;
+    let vault, usdc, strategyA, strategyB, lockedStrategy;
+    let owner, manager, user1, user2;
     
     const USDC_DECIMALS = 6;
-    const parseUSDC = (amount: number) => ethers.parseUnits(amount.toString(), USDC_DECIMALS);
-    const formatUSDC = (amount: bigint) => ethers.formatUnits(amount, USDC_DECIMALS);
+    const parseUSDC = (amount) => ethers.parseUnits(amount.toString(), USDC_DECIMALS);
+    const formatUSDC = (amount) => ethers.formatUnits(amount, USDC_DECIMALS);
     
     beforeEach(async function () {
         [owner, manager, user1, user2] = await ethers.getSigners();
