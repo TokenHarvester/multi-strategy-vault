@@ -102,6 +102,22 @@ contract MockLockedStrategy is ERC4626 {
     }
 
     /**
+     * @notice Override redeem to enforce lockup
+     */
+
+    function redeem(uint256 shares, address receiver, address owner)
+        public
+        override
+        returns (uint256 assets)
+    {
+        require(
+            block.timestamp >= depositTimestamp[owner] + LOCKUP_PERIOD,
+            "Funds locked"
+        );
+        return super.redeem(shares, receiver, owner);
+    }
+
+    /**
      * @notice Queue a withdrawal that will be available after lockup
     */
 
@@ -169,7 +185,7 @@ contract MockHLPStrategy is ERC20 {
     */
 
     function deposit(uint256 amount) external returns (uint256 shares) {
-        requires(assets > 0, "Cannot deposit 0");
+        require(assets > 0, "Cannot deposit 0");
 
         shares = totalSupply() == 0
             ? assets
@@ -185,7 +201,7 @@ contract MockHLPStrategy is ERC20 {
     */
 
     function withdraw(uint256 shares) external returns (uint256 assets) {
-        require(shares > 0 "Cannot withdraw 0");
+        require(shares > 0, "Cannot withdraw 0");
         require(balanceOf(msg.sender) >= shares, "Insufficient balance");
 
         assets = (shares * _totalAssets()) / totalSupply();

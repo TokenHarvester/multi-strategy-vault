@@ -50,9 +50,9 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
     event StrategyUpdated(uint256 indexed strategyId, uint256 newAllocationBps);
     event StrategyRemoved(uint256 indexed strategyId);
     event Rebalanced(uint256 timestamp);
-    event withdrawalQueued(address indexed user, uint256 shares, uint256 assets, uint256 requestId);
-    event withdrawalCompleted(address indexed user, uint256 requestId, uint256 assets);
-    event YieldAccured(uint256 previousTotal, uint256 newTotal, uint256 yieldAmount);
+    event WithdrawalQueued(address indexed user, uint256 shares, uint256 assets, uint256 requestId);
+    event WithdrawalCompleted(address indexed user, uint256 requestId, uint256 assets);
+    event YieldAccrued(uint256 previousTotal, uint256 newTotal, uint256 yieldAmount);
 
     // ============ Errors ============
     error InvalidAllocation();
@@ -67,7 +67,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
     constructor(
         IERC20 _asset,
         string memory _name,
-        string memory _symbol,
+        string memory _symbol
     ) ERC4626(_asset) ERC20(_name, _symbol) {
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _grantRole(MANAGER_ROLE, msg.sender);
@@ -121,7 +121,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
     if (newAllocationBps > MAX_ALLOCATION_BPS) revert AllocationExceedsMax();
 
     Strategy storage strategy = strategies[strategyId];
-    if[!strategy.isActive] revert StrategyNotActive();
+    if (!strategy.isActive) revert StrategyNotActive();
 
     // Verify total allocation
     uint256 totalAllocation = newAllocationBps;
@@ -165,7 +165,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
             uint256 currentAmount = _getStrategyBalance(i);
 
             if (currentAmount > targetAmount) {
-                uint256 excess = currentAmount - targetAmount;
+                uint256 withdrawAmount = currentAmount - targetAmount;
                 _withdrawFromStrategy(i, withdrawAmount);
             }
         }
@@ -264,9 +264,9 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
         returns (uint256 assets)
     {
         assets = previewRedeem(shares);
-        uint256 availbleLiquidity = IERC20(asset()).balanceOf(address(this));
+        uint256 availableLiquidity = IERC20(asset()).balanceOf(address(this));
 
-        if (availbleLiquidity >= assets) {
+        if (availableLiquidity >= assets) {
             // Instant withdrawal
             assets = super.redeem(shares, receiver, owner);
             _updateTotalAssetsCache();
@@ -395,7 +395,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
 
     function _depositToStrategy(uint256 strategyId, uint256 amount) internal {
         Strategy memory strategy = strategies[strategyId];
-        IERC2 assetToken = IERC20(asset());
+        IERC20 assetToken = IERC20(asset());
 
         assetToken.safeApprove(strategy.strategyAddress, amount);
 
