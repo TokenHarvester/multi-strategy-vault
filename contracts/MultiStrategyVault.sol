@@ -153,7 +153,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
     */
 
    function rebalance() external onlyRole(MANAGER_ROLE) nonReentrant whenNotPaused {
-       uint256 totalAssets = totalAssets();
+       uint256 vaultTotalAssets = totalAssets();
        uint256 availableAssets = IERC20(asset()).balanceOf(address(this));
 
        // Withdraw from strategies if needed
@@ -161,7 +161,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
             Strategy memory strategy = strategies[i];
             if (!strategy.isActive) continue;
 
-            uint256 targetAmount = (totalAssets * strategy.allocationBps) / BPS_DENOMINATOR;
+            uint256 targetAmount = (vaultTotalAssets * strategy.allocationBps) / BPS_DENOMINATOR;
             uint256 currentAmount = _getStrategyBalance(i);
 
             if (currentAmount > targetAmount) {
@@ -178,7 +178,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
             Strategy memory strategy = strategies[i];
             if (!strategy.isActive) continue;
 
-            uint256 targetAmount = (totalAssets * strategy.allocationBps) / BPS_DENOMINATOR;
+            uint256 targetAmount = (vaultTotalAssets * strategy.allocationBps) / BPS_DENOMINATOR;
             uint256 currentAmount = _getStrategyBalance(i);
 
             if (currentAmount < targetAmount && availableAssets > 0) {
@@ -303,7 +303,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
 
         totalQueuedWithdrawals += assets;
 
-        emit withdrawalQueued(user, shares, assets, withdrawalQueue[user].length - 1);
+        emit WithdrawalQueued(user, shares, assets, withdrawalQueue[user].length - 1);
     }
 
     /**
@@ -380,7 +380,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
 
         if (newTotal != previousTotal && previousTotal > 0) {
             uint256 yieldAmount = newTotal > previousTotal ? newTotal - previousTotal: 0;
-            emit YieldAccured(previousTotal, newTotal, yieldAmount);
+            emit YieldAccrued(previousTotal, newTotal, yieldAmount);
         }
 
         _cachedTotalAssets = newTotal;
@@ -485,6 +485,6 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
         totalAssetsAmount = totalAssets();
         totalSharesAmount = totalSupply();
         pricePerShare = totalSharesAmount > 0 ? (totalAssetsAmount * 1e18) / totalSharesAmount : 1e18;
-        queuedWithdrawals = totalQueuedWithdrawals
+        queuedWithdrawals = totalQueuedWithdrawals;
     }
 }

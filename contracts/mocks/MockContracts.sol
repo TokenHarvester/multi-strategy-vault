@@ -87,7 +87,7 @@ contract MockLockedStrategy is ERC4626 {
      * @notice Override deposit to track timestamp
     */
 
-    function deposit(uint256 assets, address receiver) public override returns (uint256) {
+    function deposit(uint256 assets, address receiver) public override returns (uint256 shares) {
         shares = super.deposit(assets, receiver);
         depositTimestamp[receiver] = block.timestamp;
     }
@@ -184,7 +184,7 @@ contract MockHLPStrategy is ERC20 {
      * @notice Deposit assets and recieve HLP tokens
     */
 
-    function deposit(uint256 amount) external returns (uint256 shares) {
+    function deposit(uint256 assets) external returns (uint256 shares) {
         require(assets > 0, "Cannot deposit 0");
 
         shares = totalSupply() == 0
