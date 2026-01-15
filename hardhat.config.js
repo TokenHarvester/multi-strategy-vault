@@ -1,10 +1,9 @@
-import "@nomicfoundation/hardhat-toolbox";
-import "@nomicfoundation/hardhat-verify";
-import dotenv from "dotenv";
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-verify");
+require('dotenv').config();
 
-dotenv.config();
-
-const config = {
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
   solidity: {
     version: "0.8.20",
     settings: {
@@ -58,5 +57,3 @@ const config = {
     timeout: 40000
   }
 };
-
-export default config;
