@@ -189,7 +189,7 @@ contract MockHLPStrategy is ERC20 {
 
         shares = totalSupply() == 0
             ? assets
-            : (assets * totalSupply()) / _totalAssets();
+            : (assets * totalSupply()) / _totalAssets;
 
         asset.transferFrom(msg.sender, address(this), assets);
         _totalAssets += assets;
@@ -204,7 +204,7 @@ contract MockHLPStrategy is ERC20 {
         require(shares > 0, "Cannot withdraw 0");
         require(balanceOf(msg.sender) >= shares, "Insufficient balance");
 
-        assets = (shares * _totalAssets()) / totalSupply();
+        assets = (shares * _totalAssets) / totalSupply();
 
         _burn(msg.sender, shares);
         _totalAssets -= assets;

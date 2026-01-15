@@ -397,7 +397,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
         Strategy memory strategy = strategies[strategyId];
         IERC20 assetToken = IERC20(asset());
 
-        assetToken.safeApprove(strategy.strategyAddress, amount);
+        assetToken.forceApprove(strategy.strategyAddress, amount);
 
         if (strategy.isERC4626) {
             IERC4626(strategy.strategyAddress).deposit(amount, address(this));
