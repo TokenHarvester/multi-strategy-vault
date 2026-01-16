@@ -98,7 +98,7 @@ contract MockLockedStrategy is ERC4626 {
 
     function withdraw(uint256 assets, address receiver, address owner) public override returns (uint256 shares) {
         require(block.timestamp >= depositTimestamp[owner] + LOCKUP_PERIOD, "Funds locked");
-        return super.redeem(shares, receiver, owner);
+        return super.withdraw(assets, receiver, owner);
     }
 
     /**
