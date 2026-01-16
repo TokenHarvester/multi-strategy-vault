@@ -108,19 +108,36 @@ describe("MultiStrategyVault", function () {
         it("Should reject total allocation exceeding 100%", async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                5000,
+                4000,
                 true,
                 false
             );
             
-            await expect(
-                vault.connect(manager).addStrategy(
+            await vault.connect(manager).addStrategy(
                     await strategyB.getAddress(),
-                    5001,
+                    4000,
                     true,
                     false
-                )
-            ).to.be.revertedWithCustomError(vault, "TotalAllocationInvalid");
+                );
+
+                // Deploy third strategy
+                const MockERC4626Strategy = await ethers.getContractFactory("MockERC4626Strategy");
+                const strategyC = await MockERC4626Strategy.deploy(
+                    await usdc.getAddress(),
+                    "Strategy C",
+                    "STRC"
+                );
+                await strategyC.waitForDeployment();
+
+                // Add Strategy C (should fail - would make 110% total)
+                await expect(
+                    vault.connect(manager).addStrategy(
+                        await strategyC.getAddress(),
+                        3000,
+                        true,
+                        false
+                    )
+                ).to.be.revertedWithCustomError(vault, "TotalAllocationInvalid");
         });
         
         it("Should update strategy allocation", async function () {
