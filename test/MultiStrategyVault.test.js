@@ -76,7 +76,7 @@ describe("MultiStrategyVault", function () {
         it("Should add strategies with valid allocations", async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                6000, // 60%
+                4000, // 40%
                 true,
                 false
             );
@@ -90,7 +90,7 @@ describe("MultiStrategyVault", function () {
             
             const strategies = await vault.getStrategies();
             expect(strategies.length).to.equal(2);
-            expect(strategies[0].allocationBps).to.equal(6000);
+            expect(strategies[0].allocationBps).to.equal(4000);
             expect(strategies[1].allocationBps).to.equal(4000);
         });
         
@@ -126,7 +126,7 @@ describe("MultiStrategyVault", function () {
         it("Should update strategy allocation", async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                6000,
+                3000,
                 true,
                 false
             );
@@ -154,7 +154,7 @@ describe("MultiStrategyVault", function () {
             // Setup strategies
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                6000, // 60%
+                4000, // 40%
                 true,
                 false
             );
@@ -197,10 +197,10 @@ describe("MultiStrategyVault", function () {
             const strategyAAssets = await strategyA.convertToAssets(strategyABalance);
             const strategyBAssets = await strategyB.convertToAssets(strategyBBalance);
             
-            console.log(`- Strategy A assets: ${formatUSDC(strategyAAssets)} (target: 600 USDC)`);
-            console.log(`- Strategy B assets: ${formatUSDC(strategyBAssets)} (target: 400 USDC)`);
+            console.log(`- Strategy A assets: ${formatUSDC(strategyAAssets)} (target: 400 USDC)`);
+            console.log(`- Strategy B assets: ${formatUSDC(strategyBAssets)} (target: 600 USDC)`);
             
-            expect(strategyAAssets).to.be.closeTo(parseUSDC(600), parseUSDC(1));
+            expect(strategyAAssets).to.be.closeTo(parseUSDC(400), parseUSDC(1));
             expect(strategyBAssets).to.be.closeTo(parseUSDC(400), parseUSDC(1));
             console.log("✓ Rebalance successful\n");
             
@@ -210,10 +210,10 @@ describe("MultiStrategyVault", function () {
             
             const newTotalAssets = await vault.totalAssets();
             console.log(`- New total assets: ${formatUSDC(newTotalAssets)}`);
-            console.log(`- Expected: ~1060 USDC (600 * 1.1 + 400 = 1060)`);
+            console.log(`- Expected: ~1040 USDC (400 * 1.1 + 600 = 1040)`);
             
-            // Calculate expected: 600 * 1.1 + 400 = 1060
-            const expectedAssets = parseUSDC(1060);
+            // Calculate expected: 400 * 1.1 + 600 = 1040
+            const expectedAssets = parseUSDC(1040);
             expect(newTotalAssets).to.be.closeTo(expectedAssets, parseUSDC(2));
             console.log("✓ Yield accrual verified\n");
             
@@ -224,7 +224,7 @@ describe("MultiStrategyVault", function () {
             console.log(`- User shares: ${formatUSDC(userShares)}`);
             console.log(`- Share value: ${formatUSDC(shareValue)} USDC`);
             
-            expect(shareValue).to.be.closeTo(parseUSDC(1060), parseUSDC(2));
+            expect(shareValue).to.be.closeTo(parseUSDC(1040), parseUSDC(2));
             console.log("✓ Share value correct\n");
             
             // Step 5: User withdraws (handle lockup)
@@ -268,7 +268,7 @@ describe("MultiStrategyVault", function () {
         beforeEach(async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                6000,
+                4000,
                 true,
                 false
             );
@@ -315,7 +315,7 @@ describe("MultiStrategyVault", function () {
         beforeEach(async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                10000, // 100% for simplicity
+                5000, // 50% 
                 true,
                 false
             );
@@ -351,7 +351,7 @@ describe("MultiStrategyVault", function () {
         beforeEach(async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                10000,
+                5000,
                 true,
                 false
             );
@@ -417,7 +417,7 @@ describe("MultiStrategyVault", function () {
         beforeEach(async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                10000,
+                5000,
                 true,
                 false
             );
