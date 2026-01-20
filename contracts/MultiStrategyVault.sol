@@ -20,7 +20,7 @@ contract MultiStrategyVault is ERC4626, AccessControl, Pausable, ReentrancyGuard
     // ============ State Variables ============
 
     bytes32 public constant MANAGER_ROLE = keccak256("MANAGER_ROLE");
-    uint256 public constant MAX_ALLOCATION_BPS = 5000; // 50% max per protocol
+    uint256 public constant MAX_ALLOCATION_BPS = 6000; // 60% max per protocol
     uint256 public constant BPS_DENOMINATOR = 10000;
 
     struct Strategy {

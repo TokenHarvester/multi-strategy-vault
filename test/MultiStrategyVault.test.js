@@ -94,11 +94,11 @@ describe("MultiStrategyVault", function () {
             expect(strategies[1].allocationBps).to.equal(4000);
         });
         
-        it("Should reject allocation exceeding 50% per strategy", async function () {
+        it("Should reject allocation exceeding 60% per strategy", async function () {
             await expect(
                 vault.connect(manager).addStrategy(
                     await strategyA.getAddress(),
-                    5001, // 50.01%
+                    6001, // 60.01%
                     true,
                     false
                 )
@@ -171,7 +171,7 @@ describe("MultiStrategyVault", function () {
             // Setup strategies
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                4000, // 40%
+                6000, // 60%
                 true,
                 false
             );
@@ -214,10 +214,10 @@ describe("MultiStrategyVault", function () {
             const strategyAAssets = await strategyA.convertToAssets(strategyABalance);
             const strategyBAssets = await strategyB.convertToAssets(strategyBBalance);
             
-            console.log(`- Strategy A assets: ${formatUSDC(strategyAAssets)} (target: 400 USDC)`);
-            console.log(`- Strategy B assets: ${formatUSDC(strategyBAssets)} (target: 600 USDC)`);
+            console.log(`- Strategy A assets: ${formatUSDC(strategyAAssets)} (target: 600 USDC)`);
+            console.log(`- Strategy B assets: ${formatUSDC(strategyBAssets)} (target: 400 USDC)`);
             
-            expect(strategyAAssets).to.be.closeTo(parseUSDC(400), parseUSDC(1));
+            expect(strategyAAssets).to.be.closeTo(parseUSDC(600), parseUSDC(1));
             expect(strategyBAssets).to.be.closeTo(parseUSDC(400), parseUSDC(1));
             console.log("✓ Rebalance successful\n");
             
@@ -229,8 +229,8 @@ describe("MultiStrategyVault", function () {
             console.log(`- New total assets: ${formatUSDC(newTotalAssets)}`);
             console.log(`- Expected: ~1040 USDC (400 * 1.1 + 600 = 1040)`);
             
-            // Calculate expected: 400 * 1.1 + 600 = 1040
-            const expectedAssets = parseUSDC(1040);
+            // Calculate expected: 400 * 1.1 + 600 = 1060
+            const expectedAssets = parseUSDC(1060);
             expect(newTotalAssets).to.be.closeTo(expectedAssets, parseUSDC(2));
             console.log("✓ Yield accrual verified\n");
             
@@ -241,7 +241,7 @@ describe("MultiStrategyVault", function () {
             console.log(`- User shares: ${formatUSDC(userShares)}`);
             console.log(`- Share value: ${formatUSDC(shareValue)} USDC`);
             
-            expect(shareValue).to.be.closeTo(parseUSDC(1040), parseUSDC(2));
+            expect(shareValue).to.be.closeTo(parseUSDC(1060), parseUSDC(2));
             console.log("✓ Share value correct\n");
             
             // Step 5: User withdraws (handle lockup)
@@ -285,7 +285,7 @@ describe("MultiStrategyVault", function () {
         beforeEach(async function () {
             await vault.connect(manager).addStrategy(
                 await strategyA.getAddress(),
-                4000,
+                6000,
                 true,
                 false
             );
