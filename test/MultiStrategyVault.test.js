@@ -227,7 +227,7 @@ describe("MultiStrategyVault", function () {
             
             const newTotalAssets = await vault.totalAssets();
             console.log(`- New total assets: ${formatUSDC(newTotalAssets)}`);
-            console.log(`- Expected: ~1040 USDC (400 * 1.1 + 600 = 1040)`);
+            console.log(`- Expected: ~1060 USDC (600 * 1.1 + 400 = 1060)`);
             
             // Calculate expected: 400 * 1.1 + 600 = 1060
             const expectedAssets = parseUSDC(1060);
