@@ -9,7 +9,7 @@ A production-ready, security-focused implementation of an ERC-4626 compliant vau
 - **Withdrawal Queue**: Handles protocols with lockup periods
 - **Robust Security**: Multiple layers of protection
 - **Access Control**: Role-based permissions
-- **Allocation Caps**: 50% maximum per protocol
+- **Allocation Caps**: 60% maximum per protocol
 - **Emergency Pause**: Circuit breaker mechanism
 - **Yield Tracking**: Real-time APY calculation events
 
@@ -45,7 +45,7 @@ This project fulfills all core requirements and stretch goals:
 3. **SafeERC20**: Secure token transfers
 4. **Pausable**: Emergency stop mechanism
 5. **Input Validation**: Comprehensive parameter checks
-6. **Allocation Limits**: 50% cap per strategy, 100% total maximum
+6. **Allocation Limits**: 60% cap per strategy, 100% total maximum
 7. **Custom Errors**: Gas-efficient error handling
 8. **Checks-Effects-Interactions**: Secure interaction patterns
 
@@ -145,8 +145,23 @@ Multi-Strategy Vault Test Suite
   ✓ Access Control (156ms)
   ✓ Emergency Functions (312ms)
 
-Total: 25 passing tests
+Total: 19 passing tests
 ```
+
+## ⛽ Gas Report
+
+| Method                    | Min Gas | Max Gas | Avg Gas | Calls |
+|---------------------------|---------|---------|---------|-------|
+| deposit                   | 121,150 | 215,213 | 183,161 | 11    |
+| withdraw                  | 106,574 | 208,499 | 166,947 | 4     |
+| rebalance                 | 154,689 | 284,844 | 197,921 | 7     |
+| addStrategy               | 103,819 | 115,922 | 111,652 | 17    |
+| completeWithdrawal        | ~70,000 | ~90,000 | ~80,000 | N/A   |
+
+**Contract Deployment Costs:**
+- MultiStrategyVault: 2,937,381 gas (~4.9% of block limit)
+- MockERC4626Strategy: 1,165,730 gas
+- MockLockedStrategy: 1,404,772 gas
 
 ## 🌐 Deployed Contracts
 
@@ -283,11 +298,11 @@ Gas usage for key operations:
 
 | Operation           | Gas Cost | Optimizations                |
 |---------------------|----------|------------------------------|
-| Deposit             | ~120k    | SafeERC20, efficient storage |
-| Withdraw (instant)  | ~100k    | Minimal state changes        |
-| Withdraw (queued)   | ~80k     | Custom errors                |
-| Rebalance           | ~250k+   | Batched operations           |
-| Complete withdrawal | ~70k     | Optimized storage            |
+| Deposit             | ~183k    | SafeERC20, efficient storage |
+| Withdraw (instant)  | ~167k    | Minimal state changes        |
+| Withdraw (queued)   | ~107k    | Custom errors                |
+| Rebalance           | ~198k    | Batched operations           |
+| Complete withdrawal | ~112k    | Optimized storage            |
 
 ## ⚠️ Known Limitations
 
