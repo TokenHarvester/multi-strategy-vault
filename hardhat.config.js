@@ -15,27 +15,30 @@ module.exports = {
   },
   networks: {
     localhost: {
-      url: "http://127.0.0.1:8545"
+      url: "http://127.0.0.1:8545",
+      timeout: 60000
     },
     
     hyperevm_testnet: {
       url: process.env.HYPEREVM_TESTNET_RPC || "https://api.hyperliquid-testnet.xyz/evm",
       chainId: 998,
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-      gasPrice: 1000000000
+      gasPrice: 1000000000,
+      timeout: 120000,
+      httpHeaders: {
+        "Content-Type": "application/json"
+      }
     },
     
     sepolia: {
       url: process.env.SEPOLIA_RPC_URL || "https://rpc.sepolia.org",
       chainId: 11155111,
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : []
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      timeout: 120000
     }
   },
   etherscan: {
-    apiKey: {
-      sepolia: process.env.ETHERSCAN_API_KEY || "",
-      hyperevm_testnet: "no-api-key-needed"
-    },
+    apiKey: process.env.ETHERSCAN_API_KEY || "",
     customChains: [
       {
         network: "hyperevm_testnet",

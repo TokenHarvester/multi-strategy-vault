@@ -1,0 +1,11 @@
+{
+  "network": "sepolia",
+  "deployer": "0x45e1C6Bf2e9F3Dd0f4941b42841917E3bFF77B50",
+  "timestamp": "2026-01-21T03:11:07.028Z",
+  "contracts": {
+    "mockUSDC": "0x4C53662EC7bdAf1eaf3C1f9B7761BF9D0b26E19F",
+    "strategyA": "0xAAeF06F03AE91303B024b1b4E293Cf0db72B3092",
+    "strategyB": "0x40eEcfA50203f74583ef1aAe04FAf027c940F751",
+    "vault": "0x0F59506AF8EC0E0C6aB3CDCEfB4a473E79659e74"
+  }
+}
