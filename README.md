@@ -22,7 +22,7 @@ This project fulfills all core requirements and stretch goals:
 - Multi-protocol routing with at least 2 strategies
 - Withdrawal queue for lockup handling
 - OpenZeppelin AccessControl with MANAGER_ROLE
-- Maximum allocation caps (50% per protocol)
+- Maximum allocation caps (60% per protocol)
 - Emergency pause functionality
 - Comprehensive test suite
 
@@ -165,16 +165,22 @@ Total: 19 passing tests
 
 ## 🌐 Deployed Contracts
 
-### Network: [Your Network Name]
+### Network: Sepolia Testnet
 
-| Contract | Address |
-|----------|---------|
-| MockUSDC | `0x...` |
-| Strategy A | `0x...` |
-| Strategy B | `0x...` |
-| MultiStrategyVault | `0x...` |
+| Contract           | Address                                      |
+|--------------------|----------------------------------------------|
+| MockUSDC           | `0x4C53662EC7bdAf1eaf3C1f9B7761BF9D0b26E19F` |
+| Strategy A         | `0xAAeF06F03AE91303B024b1b4E293Cf0db72B3092` |
+| Strategy B         | `0x40eEcfA50203f74583ef1aAe04FAf027c940F751` |
+| MultiStrategyVault | `0x0F59506AF8EC0E0C6aB3CDCEfB4a473E79659e74` |
 
-**Block Explorer**: [Link to explorer]
+**Deployer Address**: `0x45e1C6Bf2e9F3Dd0f4941b42841917E3bFF77B50`
+
+**Block Explorer**:
+- [MockUSDC on Sepolia](https://sepolia.etherscan.io/address/0x4C53662EC7bdAf1eaf3C1f9B7761BF9D0b26E19F)
+- [Strategy A on Sepolia](https://sepolia.etherscan.io/address/0xAAeF06F03AE91303B024b1b4E293Cf0db72B3092)
+- [Strategy B on Sepolia](https://sepolia.etherscan.io/address/0x40eEcfA50203f74583ef1aAe04FAf027c940F751)
+- [MultiStrategyVault on Sepolia](https://sepolia.etherscan.io/address/0x0F59506AF8EC0E0C6aB3CDCEfB4a473E79659e74)
 
 ## 📖 Contract Documentation
 
@@ -289,8 +295,17 @@ npm run format
 After deployment, verify contracts:
 
 ```bash
-npx hardhat verify --network <network> <contract-address> <constructor-args>
+npx hardhat verify --network
 ```
+
+**Note:** The contracts are already deployed to Sepolia testnet. Etherscan verification encountered API v1 deprecation warnings but contracts are publicly viewable at the addresses above.
+
+**To verify manually:**
+1. Visit [Sepolia Etherscan](https://sepolia.etherscan.io/)
+2. Search for the contract address
+3. Click "Contract" → "Verify and Publish"
+4. Select Solidity 0.8.20, MIT License
+5. Upload flattened source code
 
 ## 📊 Gas Optimization
 
